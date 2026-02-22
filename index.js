@@ -3,15 +3,18 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import User from "./models/user.js";
+import courseRoutes from "./routes/course.js";
+
+
 
 dotenv.config();
 const app = express();
 const PORT = process.env.port;
-
+app.use(express.json());
 app.use(cors({
   origin: "http://localhost:5173"
 }))
-app.use(express.json());
+app.use("/api", courseRoutes);
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected successfully! 🎉'))
@@ -33,7 +36,7 @@ app.post("/login", async (req, res) => {
     if (user.password !== password) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
-    res.status(200).json({ message: "yes" });
+    res.status(200).json({ message: "yes", userId: user._id });
     
 
   } catch (error) {
