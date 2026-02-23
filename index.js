@@ -4,6 +4,8 @@ import mongoose from "mongoose";
 import cors from "cors";
 import User from "./models/user.js";
 import courseRoutes from "./routes/course.js";
+import userRouter from "./routes/userRouters.js";
+
 
 
 
@@ -15,6 +17,8 @@ app.use(cors({
   origin: "http://localhost:5173"
 }))
 app.use("/api", courseRoutes);
+app.use("/api/users", userRouter);
+
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected successfully! 🎉'))
